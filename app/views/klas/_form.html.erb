@@ -1,0 +1,23 @@
+<%= simple_form_for(@kla, :html => {:class => 'form-horizontal' }) do |f| %>
+
+  <%= f.error_notification %>
+  
+  <% current_id = @kla.school.nil? ? "" : @kla.school.id %>
+
+  <%= f.input :name,  :as => :select, :collection => ["3k", "3ka", "3kb", "3kc"] + (1..6).to_a.product(([""] + ("a".."f").to_a)).collect{|x| x[0].to_s + x[1]}, include_blank: true, label: "Naam" %>
+  <% if (controller.action_name == "edit") || (controller.action_name == "update") %>
+    <%= f.association :school, include_blank:true, collection: School.order('name').all %>
+  <% else %>
+    <%= f.association :school, include_blank:true, collection: School.order('name').all, selected: params[:school_id] %>
+  <% end %>
+
+  <%= f.input :lesuur_id do %> 
+  	<%= f.grouped_collection_select(:lesuur_id, @dags, :lesuurssorted, :name, :id, :name, include_blank:true) %>
+  <% end %>
+  <%= f.input :verborgen %>
+  <%= f.input :nietdilbeeks, label: "niet-dilbeeks" %>
+  <%= f.input :tweeweek, :label => "2-wekelijks" %>
+  <%= f.input :week, as: :radio_buttons, collection: 0..2 %>
+  
+  <%= f.submit "Bewaar", class: "btn" %>
+<% end %>

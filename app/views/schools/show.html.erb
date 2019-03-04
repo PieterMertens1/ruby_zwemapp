@@ -1,0 +1,49 @@
+<!--<p id="notice"><%= notice %></p>-->
+<%= render 'layouts/messages' %>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Nieuwe klas",  new_kla_path(school_id: @school.id) %></li>
+    <% if @school.week %>
+      <li><%= link_to "Rapporten", school_path(@school, format: "pdf", tweeweek: false) %></li>
+    <% end %>
+    <% if @school.tweeweek %>
+      <li><%= link_to "Rapporten (2-wekelijks)", school_path(@school, format: "pdf", tweeweek: true) %></li>
+    <% end %>
+    <li><%= link_to "#{image_tag "excel.ico", size: "20x20"} Overzicht niveaus   ".html_safe, school_path(@school, format: "xls") %></li>
+    <li class="divider"></li>
+    <li><%= link_to "Wijzig deze school", edit_school_path(@school) %></li>
+  </ul>
+</div>
+
+<h1><%= @school.name %></h1>
+</p>
+<p>Totaal: <b><%= @totaal %></b> zwemmers in <b><%= @school.klas.count %></b> klassen.</p>
+<table class="table">
+	<th>Naam</th>
+	<th>Aantal lln</th>
+	<th>2-wekelijks</th>
+  <th>Verborgen</th>
+  <th>Lesuur</th>
+  <th>Rapporten klaar</th>
+	<th></th>
+	<th></th>
+<% @klassen.each do |k|%>
+	<tr>
+    <td><%= k.name %></td>
+    <td><%= k.zwemmers.count %></td>
+	 <td><%= k.tweeweek ? "x": "" %><%= k.week > 0 ? " (week #{k.week})" : "" %></td>
+   <td><%= k.verborgen ? "<i class=\"icon-ok\"></i>".html_safe: "" %></td>
+   <td><%= link_to(k.lesuur.dag.name, groeps_path(dag: k.lesuur.dag)) + " " + k.lesuur.name %></td>
+   <td><% if k.all_rapports_klaar %>
+          <i class="icon-ok"></i>
+        <% end %>
+   </td>
+    <td><%= link_to 'Toon', k , class: "btn btn-small"%></td>
+    <td><%= link_to 'Wijzig', edit_kla_path(k), class: "btn btn-small" %></td>
+  </tr>
+<% end %>
+</table>

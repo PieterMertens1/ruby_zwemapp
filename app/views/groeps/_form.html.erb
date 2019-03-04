@@ -1,0 +1,15 @@
+<%= simple_form_for(@groep, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  <% current_id = @groep.lesgever.nil? ? "" : @groep.lesgever.id %>
+  <%= f.input :lesgever_id, as: :select, include_blank:true, collection: @lesgevers %> 
+  <% if (controller.action_name == "edit") && (Applicatie.last.rapportperiode == true) %>
+    <%=  f.input :done_vlag, label: "Testen voltooid" %>
+  <% end %>
+  <% if controller.action_name != "edit" %>
+      <%= f.input :lesuur_id do %>
+        <%=  f.grouped_collection_select(:lesuur_id, @dags, :lesuurssorted, :name, :id, :name, include_blank:true) %>
+      <% end %>
+      <%= f.input :niveau_id, as: :select, include_blank:true, collection: @niveaus %> 
+  <% end %>
+  <%= f.submit "Bewaar", :class => "btn"%>
+<% end %>

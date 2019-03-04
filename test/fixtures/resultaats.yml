@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: resultaats
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  rapport_id :integer
+#  score      :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  rapport_id: 1
+  score: MyString
+
+two:
+  name: MyString
+  rapport_id: 1
+  score: MyString

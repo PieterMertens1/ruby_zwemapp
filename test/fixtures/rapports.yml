@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: rapports
+#
+#  id         :integer          not null, primary key
+#  zwemmer_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  zwemmer_id: 1
+
+two:
+  zwemmer_id: 1

@@ -1,0 +1,21 @@
+<%= render 'layouts/messages' %>
+
+<p>
+  <b>Naam:</b>
+  <%= @lesgever.name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @lesgever.email %>
+</p>
+<p>
+ <b>Laatst ingelogd:</b>
+ <%= @lesgever.last_sign_in_at %>
+</p>
+<p>
+ <b>Laatst ingelogd met ip:</b>
+ <% if @lesgever.last_sign_in_ip %>
+    <%= @lesgever.last_sign_in_ip %>
+  <% end %>
+</p>

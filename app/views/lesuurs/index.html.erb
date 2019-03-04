@@ -1,0 +1,24 @@
+<h1>Lesuren</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Dag</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% Lesuur.all.sort_by{ |l| [l.dag, l.sorthelper]}.each do |lesuur| %>
+  <tr>
+    <td><%= lesuur.name %></td>
+    <td><%= lesuur.dag.name %></td>
+    <td><%= link_to 'Wijzig', edit_lesuur_path(lesuur), class: "btn btn-small" %></td>
+    <td><%= link_to 'Verwijder', lesuur, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nieuw lesuur', new_lesuur_path, class:"btn btn-success" %>

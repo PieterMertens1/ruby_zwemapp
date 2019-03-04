@@ -1,0 +1,12 @@
+<%= simple_form_for(@niveau, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+    <%= f.input :name, :label => "Naam" %>
+    <%= f.input :kleurcode, label: "Kleurcode" %>
+    <%= f.input :karakter %>
+
+    <%= f.submit "Bewaar", class: "btn"%>
+<% end %>
+<script type="text/javascript">
+$('#niveau_kleurcode').colorpicker()
+</script>

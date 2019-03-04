@@ -1,0 +1,2 @@
+module DagsHelper
+end

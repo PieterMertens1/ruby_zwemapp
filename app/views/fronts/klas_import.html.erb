@@ -1,0 +1,11 @@
+<p>Verwerkte zwemmers voor: <%= link_to @klas.school.name + " " + @klas.name, @klas %></p>
+<span class="span6">
+<table class="table table-bordered">
+<% @verwerkte_zwemmers.each do |zwemmer, res| %>
+	<tr>
+		<td><%= link_to zwemmer.name, zwemmer %></td>
+		<td bgcolor="<%= res[1] %>"><i class="icon-<%= res[0] %>"></i></td>
+	</tr>
+<% end %>
+</table>
+</span>

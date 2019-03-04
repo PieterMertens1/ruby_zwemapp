@@ -1,0 +1,289 @@
+@import "bootstrap";
+
+.import_submit{
+  float:right;
+}
+.label_padding{
+  padding-left: 25px;
+}
+.center_spinner{
+  margin: auto;
+  margin-top: 150px;
+  display: block;
+}
+.paneel_button{
+  height: 65px;
+  width: 75px;
+  padding-top: 10px;
+}
+.groep_ster_vis{
+  background: image-url('groep_vis.png') no-repeat;
+  background-position: center;
+  background-size: 35px 35px;
+}
+.groep_ster_1{
+  background: image-url('star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 25px 25px;
+}
+.groep_ster_2{
+  background: image-url('2star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 40px 25px;
+}
+.small_groep_ster_vis{
+  background: image-url('groep_vis.png') no-repeat;
+  background-position: center;
+  background-size: 25px 25px;
+}
+.small_groep_ster_1{
+  background: image-url('star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 15px 15px;
+}
+.small_groep_ster_2{
+  background: image-url('2star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 25px 15px;
+}
+.mini_groep_ster_vis{
+  background: image-url('groep_vis.png') no-repeat;
+  background-position: center;
+  background-size: 10px 10px;
+}
+.mini_groep_ster_1{
+  background: image-url('star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 10px 10px;
+}
+.mini_groep_ster_2{
+  background: image-url('2star_op_35.png') no-repeat;
+  background-position: center;
+  background-size: 10px 10px;
+}
+.kleur_blok_in_header{
+  border: 1px solid #dddddd;
+}
+
+.school_header{
+  background-color:#B0B0B0;
+  font-weight: bold;
+}
+// voor knoppen manuele groepsverandering onderaan groep-show
+.man_change{
+  float:left;
+  margin-left: 5px;
+} 
+// volgende 2 lijnen voor anchors in handleiding
+h2{ position:relative; }
+h2 span{ position:absolute; top:-100px;}
+//volgende 6 lijnen voor verbreding application layout
+.container{
+  width: 1100px;
+}
+.navbar-inner .container {
+  width: 1100px;
+}
+// volgende voor verkleining rapportgrootte in testinvulpagina
+.form-horizontal .control-group{
+/* margin-bottom: 0px; */
+}
+.checkinput label{
+  display: block;
+}
+
+.accordion-toggle:hover{
+  background-color: lightgrey;
+  color: black;
+  text-decoration: none;
+}
+
+select.proefform{
+  width: 350px;
+}
+.special-hero{
+  background-color: #F5F5F5;
+  border-radius: 6px 6px 6px 6px;
+  margin-bottom: 30px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.icon{
+  float:right;
+}
+tr.goed td{
+  background-color: #dff0d8;
+}
+tr.minder td{
+  background-color: #f2dede;
+}
+table.rapport td{
+  font-size: 10px;
+}
+table.rapport ul{
+  font-size: 10px;
+}
+td.center{
+  text-align: center;
+}
+.actions{
+  padding-top: 0cm; 
+}
+.half_kleur{
+  width: 15px;
+  height: 30px;
+}
+.kleur{
+  width: 30px;
+  height: 30px;
+}
+.klein_blokje{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}
+.zwemmerskleur{
+  width: 60px;
+  height: 30px;
+  margin: auto;
+}
+.wit{
+  width: 30px;
+  height: 30px;
+  background-color: #FAF0BE  ;
+}
+.groen{
+  width: 30px;
+  height: 30px;
+  background-color: #62c462 ;
+}
+.geel{
+   width: 30px;
+  height: 30px;
+  background-color: #ffc40d ;
+}
+.oranje{
+   width: 30px;
+  height: 30px;
+  background-color: #f89406;
+}
+.rood{
+   width: 30px;
+  height: 30px;
+  background-color: #9d261d ;
+}
+.blauw{
+   width: 30px;
+  height: 30px;
+  background-color: #049cdb ;
+}
+
+.senter{
+  display: table;   /* Allow the centering to work */
+  margin: 0 auto;
+  position: absolute; 
+  bottom: 0;
+}
+.zoekform{
+  margin-top: 6px;
+  margin-right:5px;
+}
+
+/* universal */
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 50px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+  /*margin-bottom: 20px;*/
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.7em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #999;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+#logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #999;
+}
+
+footer a {
+  color: #555;
+}  
+
+footer a:hover { 
+  color: #222;
+}
+
+footer small {
+  float: left;
+}
+
+footer ul {
+  float: right;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  margin-left: 10px;
+}

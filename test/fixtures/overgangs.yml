@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  zwemmer_id: 1
+  van: MyString
+  naar: MyString
+  lesgever: MyString
+
+two:
+  zwemmer_id: 1
+  van: MyString
+  naar: MyString
+  lesgever: MyString

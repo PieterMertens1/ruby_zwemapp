@@ -1,0 +1,55 @@
+<%= render 'layouts/messages' %>
+<% if lesgever_signed_in? %>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Nieuwe groep", new_groep_path %></li>
+    <li><%= link_to "Nieuwe zwemmer", new_zwemmer_path %></li>
+    <li class="divider"></li>
+    <li><%= link_to "#{image_tag "pdficon.png", size: "20x20"} Groepsoverzicht  ".html_safe, groeps_path(format: "pdf") %></li>
+  </ul>
+</div>
+<ul class="nav nav-tabs" style="border-bottom:none; margin-bottom:0px">
+  <li class="<%= @nietdilbeeks ? "" : "active" %>"><%= link_to "Dilbeeks", groeps_path(dag: params[:dag]) %></li>
+  <li class="<%= @nietdilbeeks ? "active" : "" %>"><%= link_to "Niet-dilbeeks", groeps_path(nietdilbeeks: true, dag: params[:dag]) %></li>
+</ul>
+<table class="table table-bordered" style="table-layout: fixed"> 
+<% maxcolspan = (@maxs.values.inject{|sum,x| sum + x }+1)*6 %>
+<% @dags.each do |dag| %>
+<% if dag.lesuurs.count > 0 %>
+  <tr><th colspan="<%= maxcolspan %>"><%= dag.name %></th></tr>
+  <% dag.lesuurssorted.each do |l| %>
+  <% if l.nietdilbeeks.to_s == @nietdilbeeks.to_s %>
+  <tr>
+    <td colspan="6"><%= l.name %><br><div style="float:left"><%= link_to "#{image_tag "pdficon.png", size: "20x20", title: "aanwezigheidslijsten"}".html_safe, lesuur_path(l, format: "pdf",:type => "aanwezigheidslijst") %></div><div style="float:left"><%= link_to "#{image_tag "pdficon.png", size: "20x20", title: "evaluatielijsten"}".html_safe, lesuur_path(l, format: "pdf",:type => "evaluatielijst") %></div></td>
+    <% groepen = l.groeps.sort {|y,x| y.niveau.position <=> x.niveau.position } %>
+    <% groepteller = 0 %>
+    <% @niveaus.each do |n| %>
+      <% maxteller = 0 %>
+      <% while maxteller < @maxs[n.name] do %>
+        <% comp = @freqs[l.id][n.name] == 0 ? @freqs[l.id][n.name] : (@freqs[l.id][n.name]+1) %>
+        <% if maxteller < comp %>
+          <% groepslesgever = groepen[groepteller].lesgever.nil? ? " " : groepen[groepteller].lesgever.name %> 
+          <% omvang = groepen[groepteller].omvang %>
+          <% omvang_html = "" %>
+          <% omvang.each_with_index {|o, oi| omvang_html += ("<br />"+(omvang.size>1 ? (oi+1).to_s + ": " : "")+o.to_s)} %>
+          <td align="center" bgcolor="<%= groepen[groepteller].niveau.kleurcode%>" colspan="<%= (@maxs[n.name].to_f/@freqs[l.id][n.name].to_f)*6 %>"><%= link_to(groepen[groepteller]) do %><div align="center" class="groep_ster_<%= groepen[groepteller].niveau.name.split.last %>"><% if groepslesgever == current_lesgever.name %><b><% end %><%= groepslesgever %><% if groepslesgever == current_lesgever.name %></b><% end %><%= groepen[groepteller].done_vlag ? "*" : "" %><%= raw omvang_html %></div><% end %></td>
+          <% groepteller += 1 %>
+          <% maxteller += (@maxs[n.name].to_f/@freqs[l.id][n.name].to_f)%>
+        <% else %>
+          <td colspan="6"></td>
+          <% maxteller += 1 %>
+        <% end %>
+        
+      <% end %>
+    <% end %>
+  </tr>
+  <% end %>
+  <% end %>
+<% end %>
+<% end %>
+</table>
+<% end %>

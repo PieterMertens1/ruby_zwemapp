@@ -1,0 +1,20 @@
+<%= render 'layouts/messages' %>
+<%= simple_form_for(@zwemmer, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :name, label: "Naam + voornaam" %>
+  <%= f.input :extra, as: :text, :input_html => {:rows => "5"} %>
+  <%= f.input :kla_id, as: :select, collection: Kla.all.sort_by {|k| [k.school.name, k.sort_name]}.collect {|p| [ p.school.name+" "+p.name, p.id ] }, include_blank:true, label: "Klas" %>
+  <% if controller.action_name != "edit1" %>
+    <%= f.input :groep_id, label_html: { id: 'groep_select_extra' }  do %>
+      <%= f.grouped_collection_select :groep_id, Lesuur.all, :groepssorted, :klassen_label, :id, :descriptive_name, :include_blank => true %>
+    <% end %>
+  <% end %>
+  <%= f.input :badmuts, label: "Badmuts", as: :select, collection: Niveau.pluck(:name) %>
+  <% if controller.action_name == "new" %>
+    <%= f.input :importvlag, label: "Geüpdatet", :input_html => { :checked => true } %>
+  <% else %>
+    <%= f.input :importvlag, label: "Geüpdatet"%>
+  <% end %>
+    <%= f.submit "Bewaar", :class => "btn" %>
+<% end %>

@@ -1,0 +1,51 @@
+<%= render 'layouts/messages' %>
+<h2>Fouten</h2>
+<p>
+  <b>Test:</b>
+  <%= @proef.content %>
+</p>
+<p>
+  <b>Niveau:</b>
+  <%= link_to @proef.niveau.name+" " +(@proef.nietdilbeeks ? "(niet-dilbeeks)" : "(dilbeeks)"),niveau_path(@proef.niveau,nietdilbeeks: @proef.nietdilbeeks) %>
+</p>
+
+<p>
+  <b>Belangrijk:</b>
+  <%= @proef.belangrijk ? "Ja" : "Nee" %>
+</p>
+
+<p>
+  <b>Invoertype:</b>
+  <%= @proef.scoretype %>
+</p>
+<% if @proef.fouts.count > 0  %>
+  <table class="table" id="<%= Applicatie.last.rapportperiode? ? "" : "fouts" %>">
+  <tr>
+  <% if not Applicatie.first.rapportperiode %>
+    <th></th>
+  <% end %>
+  <th>Fout</th>
+  <% if not Applicatie.first.rapportperiode %>
+    <th></th>
+    <th></th>
+  <% end %>
+  </tr>
+  <% @proef.fouts.order("position").each do |f| %>
+    <tr id="fout_<%= f.id %>">
+    <% if not Applicatie.last.rapportperiode %>
+      <td><span class="handle"><i class="icon-resize-vertical"></i></span></td>
+    <% end %>
+    <td><%= f.name %></td>
+    <% if not Applicatie.first.rapportperiode %>
+      <td><%= link_to "Wijzig", edit_fout_path(f), class: "btn btn-small"%></td>
+      <td><%= link_to 'Verwijder', f, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+    <% end %>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <h2>Geen fouten</h2>
+<% end %>
+<% if not Applicatie.first.rapportperiode %>
+  <%= link_to "Nieuwe fout", new_fout_path(proef_id: @proef), class: "btn btn-success" %>
+<% end %>

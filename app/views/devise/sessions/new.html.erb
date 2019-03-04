@@ -1,0 +1,19 @@
+<%= render 'layouts/messages' %>
+<div class="hero-unit span4 offset4" style="padding:30px">
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <div><%= f.label :naam, style: "display:inline" %><br />
+  <%= f.text_field :name, autofocus:true,style: "width:285px" %></div>
+
+  <div><%= f.label :wachtwoord, style: "display:inline" %><br />
+  <%= f.password_field :password,style: "width:285px" %></div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div><%= f.check_box :remember_me %> <%= f.label :mij_onthouden,style: "display:inline-block" %></div>
+  <% end -%>
+	<br>
+  <div><%= f.submit "Inloggen", class:"btn btn-primary btn-block btn-large" %></div>
+<% end %>
+
+<p><%= render "devise/shared/links" %></p>
+</div>

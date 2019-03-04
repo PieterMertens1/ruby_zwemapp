@@ -1,0 +1,19 @@
+<%= render 'layouts/messages' %>
+<h2>Opmerkingen</h2>
+
+<table class="table table-bordered">
+ <% @opmerkings.each do |op| %>
+ 	<tr>
+ 		<td><%= op.name %></td>
+ 		<% if not Applicatie.first.rapportperiode %>
+ 			<td><%= link_to 'Wijzig', edit_opmerking_path(op), class: "btn btn-small" %></td>
+      		<td><%= link_to 'Verwijder', op, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+      	<% end %>
+ 	</tr>
+ <% end %>
+</table>
+
+<br />
+<% if not Applicatie.first.rapportperiode %>
+  <%= link_to 'Nieuwe opmerking', new_opmerking_path, class:"btn btn-success" %>
+<% end %>

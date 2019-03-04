@@ -1,0 +1,21 @@
+<%= form_for(@dag) do |f| %>
+  <% if @dag.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dag.errors.count, "error") %> prohibited this dag from being saved:</h2>
+
+      <ul>
+      <% @dag.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

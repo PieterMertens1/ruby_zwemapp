@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: niveaus
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  kleurcode  :string(255)
+#  rang       :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  kleurcode: MyString
+  rang: 1
+
+two:
+  name: MyString
+  kleurcode: MyString
+  rang: 1

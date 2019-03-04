@@ -1,0 +1,12 @@
+<%= simple_form_for(@lesgever, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  
+    <%= f.input :name, label: "Naam" %>
+    <%= f.input :email %>
+    <%= f.input :password, label: "Wachtwoord" %>
+    <%= f.input :password_confirmation, label: "Wachtwoord confirmatie" %>
+    <% if  current_lesgever.role? :admin %>
+      <%= f.input :role_ids, as: :check_boxes, collection: Role.all, label: "Rollen" %>
+    <% end %>
+    <%= f.submit "Bewaar", class: "btn" %>
+<% end %>

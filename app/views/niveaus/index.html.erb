@@ -1,0 +1,45 @@
+<h1>Niveaus</h1>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+        <% if not Applicatie.first.rapportperiode %>
+          <li><%= link_to 'Nieuw niveau', new_niveau_path %></li>
+        <% end %>
+        <li><%= link_to "#{image_tag "pdficon.png", size: "20x20"} Niveauoverzicht  ".html_safe, niveaus_path(format: "pdf") %></li>
+        <li><%= link_to "#{image_tag "excel.ico", size: "20x20"} Niveauoverzicht   ".html_safe, niveaus_path(format: "xls") %></li>
+  </ul>
+</div>
+<table class="table table-striped" id="<%= Applicatie.last.rapportperiode? ? "" : "niveaus" %>">
+  <tr>
+    <% if not Applicatie.first.rapportperiode %>
+      <th></th>
+    <% end %>
+    <th></th>
+    <th>Naam</th>
+    <th></th>
+    <% if not Applicatie.first.rapportperiode %>
+      <th></th>
+      <th></th>
+    <% end %>
+  </tr>
+
+<% @niveaus.each do |niveau| %>
+  <tr id="niveau_<%= niveau.id %>">
+    <% if not Applicatie.last.rapportperiode %>
+      <td><span class="handle"><i class="icon-resize-vertical"></i></span></td>
+    <% end %>
+  	<td><div style="background-color:<%= niveau.kleurcode %>" class="kleur small_groep_ster_<%= niveau.name.split.last %>"</div></td>
+    <td><%= niveau.name %></td>
+    <td><%= link_to 'Toon', niveau , class: "btn btn-small"%></td>
+    <% if not Applicatie.first.rapportperiode %>
+      <td><%= link_to 'Wijzig', edit_niveau_path(niveau), class: "btn btn-small" %></td>
+      <td><%= link_to 'Verwijder', niveau, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />

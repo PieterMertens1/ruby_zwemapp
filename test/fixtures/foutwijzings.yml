@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: foutwijzings
+#
+#  id           :integer          not null, primary key
+#  resultaat_id :integer
+#  fout_id      :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  resultaat_id: 1
+  fout_id: 1
+
+two:
+  resultaat_id: 1
+  fout_id: 1

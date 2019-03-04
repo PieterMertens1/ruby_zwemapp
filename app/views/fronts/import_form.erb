@@ -1,0 +1,27 @@
+
+<span class="">
+<%= form_tag fronts_klas_import_path, :method => :put, :class => "form-inline" do %>
+	<div style="margin-bottom: 20px">
+	<%= label_tag "klas", "Klas:" %>
+	<%= select_tag "klas", options_for_select(Kla.all.sort_by {|k| [k.school.name, k.sort_name]}.collect {|p| [ p.school.name+" "+p.name, p.id ] }), include_blank:true %>
+	<%= label_tag "niveau", "Basisniveau:", :class => "label_padding" %>
+	<%= select_tag "niveau", options_for_select(Niveau.all.collect {|n| [ n.name, n.id ] }), include_blank:true %>
+	<%= label_tag "nieuw", "Nieuw?:", :class => "label_padding" %>
+	<%= check_box_tag "nieuw", "1", false %>
+	<%= submit_tag "Importeer", :class =>  "btn import_submit", :id => "import_submit" %>
+	</div>
+	<table style="width:100%">
+		<tr style="border: 8px solid lightgrey"><td><%= text_area_tag "zwemmers", nil, :rows => 35, :class => "field span5", id: "userinvoer", style: "width:97%" %><br /></td>
+		<td style="width:60%; border: 8px solid lightgrey; vertical-align:top"><table class="table table-bordered" id="autotafel">
+			<tr><td>fff</td></tr>
+			<tr><td>fff</td></tr>
+			<tr><td>fdgs</td></tr>
+			<tr><td>sdgsgs</td></tr>
+			<tr><td>sdgsdg</td></tr>
+		</table>
+		<%= image_tag "spinner.gif", id: "spinner", class: "center_spinner" %>
+		</td></tr>
+	</table>
+<% end %>
+<%= @codes %>
+</span>

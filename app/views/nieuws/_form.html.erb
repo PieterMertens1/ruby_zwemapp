@@ -1,0 +1,8 @@
+<%= simple_form_for(@nieuw, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  	<%= f.input :soort, collection: ["goed", "minder"] %>
+    <%= f.input :content , :input_html => { :rows => '5' } %>
+
+
+    <%= f.submit "Bewaar", class:"btn"%>
+<% end %>

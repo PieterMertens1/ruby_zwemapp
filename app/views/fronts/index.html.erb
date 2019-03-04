@@ -1,0 +1,48 @@
+<%= render 'layouts/messages' %>
+<% if lesgever_signed_in? %>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Nieuwe groep", new_groep_path %></li>
+    <li><%= link_to "Nieuwe zwemmer", new_zwemmer_path %></li>
+    <li class="divider"></li>
+    <li><%= link_to @nietdilbeeks ? "Dilbeekse groepen" : "Niet-dilbeekse groepen", @nietdilbeeks ? root_path : root_path(nietdilbeeks: true) %></li>
+  </ul>
+</div>
+<table class="table table-bordered" style="table-layout: fixed"> 
+<% maxcolspan = (@maxs.values.inject{|sum,x| sum + x }+1)*2 %>
+<% @dags.each do |dag| %>
+<% if dag.lesuurs.count > 0 %>
+	<tr><th colspan="<%= maxcolspan %>"><%= dag.name %></th></tr>
+	<% dag.lesuurs.each do |l| %>
+	<% if l.nietdilbeeks.to_s == @nietdilbeeks.to_s %>
+	<tr>
+		<td colspan="2"><%= l.name %></td>
+		<% groepen = l.groeps.sort {|y,x| y.niveau.position <=> x.niveau.position } %>
+		<% groepteller = 0 %>
+		<% @niveaus.each do |n| %>
+			<% maxteller = 0 %>
+			<% while maxteller < @maxs[n.name] do %>
+				<% if maxteller < @freqs[l.id][n.name] %>
+					<% groepslesgever = groepen[groepteller].lesgever.nil? ? " " : groepen[groepteller].lesgever.name %> 
+					<td align="center" bgcolor="<%= groepen[groepteller].niveau.kleurcode%>" colspan="<%= (@maxs[n.name].to_f/@freqs[l.id][n.name].to_f)*2%>"><%= link_to(groepen[groepteller]) do %><div align="center"><% if groepslesgever == current_lesgever.name %><b><% end %><%= groepslesgever %><% if groepslesgever == current_lesgever.name %></b><% end %><%= groepen[groepteller].done_vlag ? "(*)" : "" %><br /><%= groepen[groepteller].grootte %></div><% end %></td>
+					<% groepteller += 1 %>
+					<% maxteller += (@maxs[n.name].to_f/@freqs[l.id][n.name].to_f)%>
+				<% else %>
+					<td colspan="2"></td>
+					<% maxteller += 1 %>
+				<% end %>
+				
+			<% end %>
+		<% end %>
+	</tr>
+	<% end %>
+	<% end %>
+<% end %>
+<% end %>
+</table>
+<% end %>
+

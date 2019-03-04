@@ -1,0 +1,129 @@
+<!--<p id="notice"><%= notice %></p>-->
+<%= render 'layouts/messages' %>
+<%= form_tag change_groeps_path, :method => :put, :class => "change_form" do %>
+<div>
+<table style="width:90%; float:left" class="table table-bordered">
+  <tr>
+    <td>
+  <b>Lesgever:</b>
+  <% if @groep.lesgever %>
+  <%= @groep.lesgever.name %>
+  <% end %>
+</td>
+<td>
+  <b>Lesuur:</b>
+  <%= link_to(@groep.lesuur.dag.name, groeps_path(dag: @groep.lesuur.dag)) + " " + @groep.lesuur.name %>
+</td>
+
+<td>
+  <b>Niveau:</b>
+  <%= link_to(@groep.niveau.name, niveau_path(@groep.niveau)) %>
+  </td>
+<td>
+  <b>Grootte:</b>
+  <% omvang = @groep.omvang %>
+  <% omvang_html = "" %>
+  <% omvang.each_with_index {|o, oi| omvang_html += ((omvang.size>1 ? (oi+1).to_s + ": " : "")+o.to_s+(omvang.size == oi+1 ? "" : ","))} %>
+  <%= raw omvang_html %>
+  </td>  
+  </tr>
+</table>
+</div>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Aanwezigheidslijst (volledig)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 0) %></li>
+    <% if @tweeweek %>
+      <% if @any_wekelijks %>
+        <li><%= link_to "Aanwezigheidslijst (wekelijks)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 100) %></li>
+      <% end %>
+      <li><%= link_to "Aanwezigheidslijst (week 1 + wekelijks)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 1) %></li>
+      <li><%= link_to "Aanwezigheidslijst (week 2 + wekelijks)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 2) %></li>
+      <li><%= link_to "Aanwezigheidslijst (week 1)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 11) %></li>
+      <li><%= link_to "Aanwezigheidslijst (week 2)", groep_path(@groep, format: "pdf",:type => "aanwezigheidslijst", :week => 12) %></li>
+    <% end %>
+    <li class="divider"></li>
+    <li><%= link_to "Evaluatielijst (volledig)", groep_path(@groep, format: "pdf",:type => "evaluatielijst", :week => -1) %></li>
+    <li><%= link_to "Evaluatielijst (wekelijks)", groep_path(@groep, format: "pdf",:type => "evaluatielijst", :week => 0) %></li>
+    <% if @tweeweek %>
+      <li><%= link_to "Evaluatielijst (week 1)", groep_path(@groep, format: "pdf",:type => "evaluatielijst", :week => 1) %></li>
+      <li><%= link_to "Evaluatielijst (week 2)", groep_path(@groep, format: "pdf",:type => "evaluatielijst", :week => 2) %></li>
+    <% end %>
+    <% if @groep.niveau.name == "geel" %>
+      <li><%= link_to "Watersafety", groep_path(@groep, format: "pdf",:type => "watersafety") %></li>
+    <% end %>
+    <li class="divider"></li>
+    <li><%= link_to 'Wijzig deze groep', edit_groep_path(@groep) %></li>
+    <% if Applicatie.last.rapportperiode && @groep.lesgever != nil %>
+      <li><%= link_to "Test deze groep", groep_tst_path(@groep, :tweeweek => "false") %></li>
+      <% if @tweeweek %>
+        <li><%= link_to "Test deze groep (2-wekelijks)", groep_tst_path(@groep, :tweeweek => "true")  %></li>
+      <% end %>
+    <% end %>
+    <% if @groep.grootte ==0 %>
+        <li><%= link_to 'Verwijder deze groep', @groep, confirm: 'Bent u zeker?', method: :delete %></li>
+    <% end %>
+  </ul>
+</div>
+<%= hidden_field_tag "groepid", @groep.id %>
+<table class="table" style="float:left">
+<% @zwemmers.sort_by{ |zw| [-zw.kla.sort_name.to_i, zw.kla.name, zw.kla.school.name, zw.name]}.each do |z|%>
+	<tr>
+    <% if z.badmuts && !z.badmuts.empty? %>
+      <td><div style="background-color:<%= Niveau.where(name: z.badmuts).first.kleurcode %>;border-right:15px solid <%= z.groep.niveau.kleurcode %>" class="half_kleur"></div></td>
+    <% else %>
+  	<td><div style="background-color:<%= z.groepvlag.to_i > 0 ? Groep.find(z.groepvlag).niveau.kleurcode : z.groep.niveau.kleurcode %>" class="kleur small_groep_ster_<%= z.groep.niveau.name.split.last %>"</div></td>
+    <% end %>
+    <td><%= check_box_tag "zwemmer_ids[]", z.id, false, id: "zwemmer_check_#{z.id}" %></td>
+    <td><%= link_to z.name, z %><%= z.overvlag ? "(+)" : "" %><%= z.extra.to_s != '' ? "(*)" : "" %><%= z.groepvlag.to_i > 0 ? "(wit)" : "" %><%= z.netovervlag ? "(@)" : "" %></td>
+    <td><%= link_to z.kla.school.name, z.kla.school %></td>
+    <td><%= link_to z.kla.name, z.kla %></td>
+    <td><%= link_to 'Toon', z , class: "btn btn-small"%></td>
+    <td><%= link_to 'Wijzig', edit_zwemmer_path(z), class: "btn btn-small" %></td>
+    <td><%= link_to 'Verwijder', z, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+  </tr>
+<% end %>
+</table>
+<%  if (not Applicatie.last.rapportperiode) && (@groep.lesgever != nil) %>
+   
+   <%= link_to "Selecteer alles", 'javascript:;', :class => "btn massselect", :style => "float:left" %>
+   <%= link_to "Selecteer niets", 'javascript:;', :class => "btn massunselect", :style => "float:left;margin-left:5px" %>
+  <% @equals.each do |e| %>
+    <!--<div class="btn-group man_change">-->
+   <%= submit_tag "Stuur naar #{e.lesgever.nil? ? "" : e.lesgever.name}", :class => "btn man_change", :name => "verander[#{e.id}]", data: { send_mail: "false"} %>
+   <!--<%= button_tag(type: 'submit', :class => "btn man_change", :name => "verander[#{e.id}]", data: { send_mail: "true" }) do %>
+        <i class="icon-envelope"></i>
+      <% end %>
+   </div>-->
+   <% end %>
+   <% if @groep.niveau.position > @minrang %>
+    <!--<div class="btn-group man_change">-->
+      <%= button_tag(type: 'submit', :class => "btn man_change", :name => "over[-1]") do %>
+        <i class="icon-arrow-down"></i> Niveau lager
+      <% end %>
+      <!--<%= button_tag(type: 'submit', :class => "btn man_change", :name => "over[-1]") do %>
+        <i class="icon-envelope"></i>
+      <% end %>
+    </div>-->
+    <% end %>
+   <% if @groep.niveau.position < @maxrang %>
+    <!--<div class="btn-group man_change">-->
+      <%= button_tag(type: 'submit', :class => "btn man_change", :name => "over[1]") do %>
+        <i class="icon-arrow-up"></i> Niveau hoger
+      <% end %>
+      <!--<%= button_tag(type: 'submit', :class => "btn man_change", :name => "over[1]") do %>
+        <i class="icon-envelope"></i>
+      <% end %>
+    </div>-->
+   <% end %>
+   <% if @groep.niveau.name != "wit" %>
+    <%= submit_tag "Stuur naar wit", :class => "btn man_change", :name => "wit", :style => "visibility:hidden" %>
+   <% end  %>
+   <% if @groep.niveau.name == "wit" %>
+    <%= submit_tag "Stuur terug", :class => "btn man_change", :name => "terug", :style => "visibility:hidden" %>
+   <% end  %>
+<% end %>
+<% end %>

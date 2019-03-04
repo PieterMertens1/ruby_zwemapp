@@ -1,0 +1,57 @@
+<%= render 'layouts/messages' %>
+  <%= form_tag massdelete_zwemmers_path, :method => :put, :class => "massdelete_form" do %>
+
+<% if @zwemmers.size > 0 %>
+<% if params[:import] %>
+  <%= link_to "Selecteer alles", 'javascript:;', :class => "btn massselect"  %>
+  <%= link_to "Selecteer niets", 'javascript:;', :class => "btn massunselect" %>
+  <%= link_to "Selecteer 6es", 'javascript:;', :class => "btn select6es" %>
+  <%= submit_tag "Verwijder", :class => "btn", confirm: 'Bent u zeker?' %>
+  <br /><br />
+<% end %>
+<table class="table table-striped">
+  <tr>
+  	<th></th>
+    <% if params[:import] %>
+      <th></th>
+    <% end %>
+    <th>Naam</th>
+    <th>School</th>
+    <th>Klas</th>
+    <th>Lesgever</th>
+    <th>Lesuur</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <% if params[:import] %>
+      <th></th>
+    <% end %>
+  </tr>
+<% @zwemmers.each do |zwemmer| %>
+  <tr>
+  	<td><div style="background-color:<%= zwemmer.groepvlag.to_i > 0 ? Groep.find(zwemmer.groepvlag).niveau.kleurcode : zwemmer.groep.niveau.kleurcode %>" class="kleur small_groep_ster_<%= zwemmer.groep.niveau.name.split.last %>"</div></td>
+    <% if params[:import] %>
+      <td><%= check_box_tag "zwemmer_ids[]", zwemmer.id, false, class: "#{zwemmer.kla.name[0]}" %></td>
+    <% end %>
+    <td><%= link_to zwemmer.name + (zwemmer.overvlag ? "(+)" : "") + (zwemmer.extra.to_s != '' ? "(*)" : "") + (zwemmer.groepvlag.to_i > 0 ? "(wit)" : "") + (zwemmer.netovervlag ? "(@)" : "") , zwemmer %></td>
+    <td><%= link_to zwemmer.kla.school.name, school_path(zwemmer.kla.school) %></td>
+    <td><%= link_to zwemmer.kla.name, kla_path(zwemmer.kla) %></td>
+    <td><%= zwemmer.groep.lesgever.nil? ? "" : zwemmer.groep.lesgever.name %></td>
+    <td><%= "#{zwemmer.groep.lesuur.dag.name} #{zwemmer.groep.lesuur.name}" %></td>
+    <td><%= link_to 'Groep', groep_path(zwemmer.groep) , class: "btn btn-small"%></td>
+    <td><%= link_to 'Wijzig', edit_zwemmer_path(zwemmer), class: "btn btn-small" %></td>
+    <td><%= link_to 'Verwijder', zwemmer, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+  </tr>
+<% end %>
+</table>
+<% if params[:import] %>
+  <%= link_to "Selecteer alles", 'javascript:;', :class => "btn massselect" %>
+  <%= link_to "Selecteer niets", 'javascript:;', :class => "btn massunselect" %>
+  <%= link_to "Selecteer 6es", 'javascript:;', :class => "btn select6es" %>
+  <%= submit_tag "Verwijder", :class => "btn", confirm: 'Bent u zeker?' %>
+<% end %>
+<% else %>
+<h2>Geen zwemmers gevonden</h2>
+<% end %>
+<br />
+<% end %>

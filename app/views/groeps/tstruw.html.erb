@@ -1,0 +1,49 @@
+<%= form_for(@groep) do |f| %>
+  <% if @groep.errors.any? %>
+	<div id="error_explanation">
+	  <h2><%= pluralize(@groep.errors.count, "error") %> prohibited this hoofd from being saved:</h2>
+
+	  <ul>
+	  <% @groep.errors.full_messages.each do |msg| %>
+		<li><%= msg %></li>
+	  <% end %>
+	  </ul>
+	</div>
+  <% end %>
+
+  <% @groep.zwemmers.each_with_index do |z,zidx| %>
+	  <%= f.fields_for :zwemmers, z do |builder| %>
+	  <div class="hero-unit">
+	  <p><%= z.name %></p>
+			<% z.rapports.each_with_index do |rap,rapidx| %>
+				<%= builder.fields_for :rapports, rap do |builder2| %>
+					<% if not rap.id %>
+						<ul>
+						<% rap.resultaats.each_with_index do |r, ridx| %>
+							<%= builder2.fields_for :resultaats, r do |builder3| %>
+								<% if not r.name %> 
+									<fieldset>
+										<li><h5><%= @proefs[ridx].content %></h5></li>
+										<%= builder3.select :score, options_for_select(["+","+-","-"]),:include_blank => true %>
+										<%= hidden_field_tag "groep[zwemmers_attributes][#{zidx}][rapports_attributes][#{rapidx}][resultaats_attributes][#{ridx}][fout_ids][]", nil %>
+										<%= hidden_field_tag "groep[zwemmers_attributes][#{zidx}][rapports_attributes][#{rapidx}][resultaats_attributes][#{ridx}][name]", @proefs[ridx].content %>
+										<% @proefs[ridx].fouts.each do |f| %>
+										<%= check_box_tag "groep[zwemmers_attributes][#{zidx}][rapports_attributes][#{rapidx}][resultaats_attributes][#{ridx}][fout_ids][]", f.id %>
+										<%= f.name %>
+										<% end %>
+										
+									</fieldset>
+								<% end %>
+							<% end %>
+						<% end %>
+						</ul>
+					<% end %>
+				<% end %>
+			<% end %>
+		</div>
+	  <% end %>
+  <% end %>
+  <div class="actions">
+	<%= f.submit %>
+  </div>
+<% end %>

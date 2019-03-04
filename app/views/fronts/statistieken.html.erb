@@ -1,0 +1,4 @@
+<% @h.each_with_index do |h, hidx| %>
+	<%=  high_chart("id"+hidx.to_s, h) %>
+<% end %>
+<%= @freqs["RC"] %>

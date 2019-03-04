@@ -1,0 +1,43 @@
+<%= render 'layouts/messages' %>
+<% if Applicatie.last.rapportperiode == false %>
+  <div class="btn-group pull-right actions">
+  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+      <i class="icon-align-justify"></i> Meer
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><%= link_to "Nieuw lesuur", new_lesuur_path %></li>
+    </ul>
+  </div>
+<% end %>
+<h1>Lesuren</h1>
+
+<table class="table">
+
+<% @dags.each do |dag| %>
+  <tr style="background-color:#dddddd;">
+    <td><%= dag.name %></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <% dag.lesuurs.sort_by{ |les| [les.dag, les.sorthelper]}.each do |l| %>
+      <tr>
+        <td></td>
+        <td><i class="icon-arrow-right"></i> <%= l.name %></td>
+        <% if Applicatie.last.rapportperiode == false %>
+          <td><%= link_to 'Wijzig', edit_lesuur_path(l), class: "btn btn-small" %></td>
+          <% if l.groeps.count == 0 %>
+            <td><%= link_to 'Verwijder', l, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-small btn-danger" %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+      </tr>
+    <% end %>
+<% end %>
+</table>
+

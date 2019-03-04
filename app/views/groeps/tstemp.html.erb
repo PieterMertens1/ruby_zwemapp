@@ -1,0 +1,39 @@
+<%= simple_form_for(@groep, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+  <% @groep.zwemmers.each_with_index do |z,zidx| %>
+	  <%= f.simple_fields_for :zwemmers, z do |builder| %>
+	  <div class="hero-unit">
+	  <p><%= z.name %></p>
+			<% z.rapports.each_with_index do |rap,rapidx| %>
+				<%= builder.simple_fields_for :rapports, rap do |builder2| %>
+					<% if not rap.id %>
+						<ul>
+						<% rap.resultaats.each_with_index do |r, ridx| %>
+							<%= builder2.simple_fields_for :resultaats, r do |builder3| %>
+								<% if not r.name %> 
+								<fieldset>
+										<li><h5><%= @proefs[ridx].content %></h5></li>
+										<%= builder3.input :score, :collection => ["+", "+-", "-"], :label => "Score:",:input_html => {:style => "width:50px"} %>
+										<%= hidden_field_tag "groep[zwemmers_attributes][#{zidx}][rapports_attributes][#{rapidx}][resultaats_attributes][#{ridx}][name]", @proefs[ridx].content %>
+										
+											<%= builder3.association :fouts, as: :check_boxes,:label => "Fouten:", :collection => @proefs[ridx].fouts,:input_html => {:style => "display:block"} %>
+										
+								</fieldset>		
+								<% end %>
+							<% end %>
+						<% end %>
+						<li><h5>Extra commentaar:</h5></li>
+						<%= builder2.input :extra, :as => :text, :input_html => { :cols => 15, :rows => 5 }, :label => false %>
+						
+					<% end %>
+				<% end %>
+			<% end %>
+		<li><h5>Gaat over:</h5></li>
+		<%= builder.input :overvlag, :label => false %>
+		</ul>
+		</div>
+	  <% end %>
+  <% end %>
+  <%= f.button :submit, "bewaar" %>
+<% end %>

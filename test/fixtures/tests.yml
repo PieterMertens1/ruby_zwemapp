@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  niveau_id: 1
+  belangrijk: false
+  scoreveld: false
+  tekstveld: false
+  nummerveld: false
+  content: MyString
+
+two:
+  niveau_id: 1
+  belangrijk: false
+  scoreveld: false
+  tekstveld: false
+  nummerveld: false
+  content: MyString

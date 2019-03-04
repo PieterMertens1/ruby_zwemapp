@@ -1,0 +1,16 @@
+<% if can? :manage, @nieuw %>
+	<%= link_to "Nieuw", new_nieuw_path, class: "btn btn-success btn-small" %><br /><br />
+<% end %>
+<table class="table table-bordered">
+<% @nieuws.each do |n| %>
+<tr class="<%= n.soort %>"><td><%= n.datum || n.created_at.strftime("%d/%m/%y") %></td>
+	<td>
+		<ul>
+		<% n.content.split('$').each do |c| %>
+			<li><%= c %>.</li>
+		<% end %>
+		</ul>
+	</td>
+</tr>
+<% end %>
+</table>

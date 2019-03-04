@@ -1,0 +1,15 @@
+<%= simple_form_for(@fout, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+<% options = option_groups_from_collection_for_select(Niveau.all, :proefssorted, :name, :id, :content, params[:proef_id]) %>
+  <div class="form-inputs">
+    <% if controller.action_name != "edit" %>
+      <%= f.input :proef_id  do %>
+        <%= f.select(:proef_id, options, {include_blank: true}, {:class => "proefform", :style => "width:500px",:disabled => true})  %>
+        <%= f.input :proef_id, :as => :hidden, :input_html => { :value => params[:proef_id] } %>
+      <% end %>
+    <% end %>
+    <%= f.input :name, :as => :text, :input_html => { :rows => '5' }, :label => "Inhoud" %>
+  </div>
+
+    <%= f.button :submit, "Bewaar" %>
+<% end %>

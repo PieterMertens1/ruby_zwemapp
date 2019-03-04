@@ -1,0 +1,95 @@
+<% content_for :body do %>
+  <script type="text/javascript">
+    document.getElementsByClassName('submitbutton')[0].onclick = function(){
+      window.btn_clicked = true;
+    };
+    window.onbeforeunload = function(){
+      if(!window.btn_clicked){
+        return 'Er zijn mogelijk niet-opgeslagen gegevens';
+      }
+    };
+  </script>
+<% end %>
+<table style="width:100%" class="table table-bordered">
+  <tr>
+    <td>
+  <b>Lesgever:</b>
+  <% if @groep.lesgever %>
+  <%= @groep.lesgever.name %>
+  <% end %>
+</td>
+<td>
+  <b>Lesuur:</b>
+  <%= @groep.lesuur.dag.name + " " + @groep.lesuur.name %>
+</td>
+
+<td>
+  <b>Niveau:</b>
+  <%= @groep.niveau.name %>
+  </td>
+<td>
+  <b>Grootte:</b>
+  <%= @zwemmers.size %>
+  </td>  
+  </tr>
+</table>
+<%= simple_form_for(@groep, :html => {:class => 'form-inline' }) do |f| %>
+  <% foutdivcount = 0 %>
+  <%= f.error_notification %>
+  <% tellers = {1 => "One", 2 => "Two", 3 => "Three", 4 => "Four", 5 => "Five", 6 => "Six", 7 => "Seven", 8 => "Eight", 9 => "Nine"} %>
+  <div class="accordion radiopanel" id="accordion2">
+  <% @zwemmers.each_with_index do |z,zidx| %>
+    <%= f.simple_fields_for :zwemmers, z do |builder| %>
+    <div class="accordion-group">
+      <div class="accordion-heading"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="<%= '#collapse' + zidx.to_s %>"><div id="<%= "update" + zidx.to_s %>"><%=  z.name + " (#{z.kla.name})" %></div></a></div>
+    <div id="<%= 'collapse' + zidx.to_s%>" class="accordion-body collapse" style="height: 0px; ">
+      <div class="accordion-inner">
+      <div class="hero-unit" style="padding:5px">
+        <% prfs = z.groepvlag.to_i > 0 ? @prfs[@nietwit[z.name]] : @prfs[@groep.niveau.name] %>
+        <% rap = @rapports[zidx] %>
+        <%= builder.simple_fields_for :rapports, rap do |builder2| %>
+            <%= builder2.input :niveaus, :input_html => {:value => Niveau.order("position").pluck(:name).join(":"), :size => 150}, :label => false, :as => :hidden %>
+            <%= builder2.input :school, :input_html => {:value => z.kla.school.name}, :label => false, :as => :hidden %>
+            <%= builder2.input :klas, :input_html => {:value => z.kla.name}, :label => false, :as => :hidden %>
+            <% resultaten = rap.id ? rap.resultaats.order("id ASC") : rap.resultaats %>
+            <% resultaten.each_with_index do |r, ridx| %>
+              <%= builder2.simple_fields_for :resultaats, r do |builder3| %>
+                <%  foutdivcount += 1 %>
+                <fieldset <%= prfs[ridx].belangrijk == true ? "style=background-color:#C0C0C0" : "" %>>
+                    <h6 style="display:inline; float: left;width:750px" class="verberg" id="<%= foutdivcount %>"><%= (ridx+1).to_s + ". " + prfs[ridx].content %></h6>
+                    <%= builder3.input :name, :input_html => {:value => prfs[ridx].content, :size => 150}, :label => false, :as => :hidden %>
+                    <%= builder3.input :proef_id, :input_html => {:value => prfs[ridx].id, :size => 150}, :label => false, :as => :hidden %>
+                    <% case prfs[ridx].scoretype %>
+                    <% when "score" %>
+                    <%= builder3.input :score, :collection => ["", "A", "B", "C", "D", "afwezig"], :label => "Score:",:input_html => {:style => "display:inline-block;margin-left:0px"}, :label => false,as: :radio_buttons, :item_wrapper_class => 'inline' %>
+                    <% when "aantal" %>
+                    <%= builder3.input :score, :as => :integer, :label => "Score:",:input_html => {:style => "width:50px"}, :label => false %>
+                    <% end %>
+                    <div style="display:inline" id="fouten_<%= foutdivcount %>" class="fouten_div"><%= builder3.association :fouts, as: :check_boxes,:label => false, :collection => prfs[ridx].fouts,:wrapper_html => {:class => "checkinput"} %></div>
+                    
+                </fieldset> 
+              <% end %>
+            <% end %>
+            <h6 style="display:inline; float: left">- Extra commentaar:</h6>
+            <%= builder2.input :standaard_extra, :collection => Opmerking.order(:name).collect{|op| op.name}, :label => false,:input_html => {:style => "width:350px;display:inline-block;margin-left:10px"} %>
+            <%= builder2.input :extra, :as => :text, :input_html => { :cols => 15, :rows => 3, :id => "update" + zidx.to_s,:style => "display:inline-block;margin-left:145px;width:335px" }, :label => false %>
+            
+            <h6 style="display:inline; float: left">- Rapport klaar:</h6>
+            <%= builder2.input :klaar, :input_html => { :id => "update" + zidx.to_s, :class => "check",:style => "display:inline-block; margin-left:10px" }, :label => false %>
+            <%= builder2.input :niveau, :input_html => {:value => (z.groepvlag != 0 ? Groep.find(z.groepvlag).niveau.name : @groep.niveau.name)}, :as => :hidden %>
+            <%= builder2.input :lesgever, :input_html => {:value => @groep.lesgever.name}, :as => :hidden %>
+            <%= builder2.input :school, :input_html => {:value => z.kla.school.name}, :as => :hidden %>
+            <%= builder2.input :klas, :input_html => {:value => z.kla.name}, :as => :hidden %>
+        <% end %>
+    <h6 style="display:inline; float: left">- Gaat over:</h6>
+    <%= builder.input :overvlag, :label => false,:input_html => {:class => "gover",:style => "display:inline-block;margin-left:10px"} %>
+    </div>
+      </div>
+    </div>
+    </div>
+    <% end %>
+  <% end %>
+  </div>
+  <%= f.button :submit, "Bewaar", class: "submitbutton" %>
+<% end %>
+<%= @nivs %>

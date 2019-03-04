@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  	<%= image_tag("/app/assets/images/dilkom5.png", :size => "64x64") %>
+    <h2>Volgende zwemmers werden naar uw groep verplaatst:</h2>
+    <h3>Van: <%= "#{@groep_van.lesuur.name} #{@groep_van.niveau.name} (#{@groep_van.lesgever.name})" %></h3>
+    <h3>Naar: <%= "#{@groep_naar.lesuur.name} #{@groep_naar.niveau.name} (#{@groep_naar.lesgever.name})" %></h3>
+    <% @zwemmers.each do |z| %>
+    	<ul>
+    		<li><%= "#{z.name} (#{z.kla.school.name} #{z.kla.name})" %></li>
+    	</ul>
+
+	<% end %>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+<%= simple_form_for(@lesuur, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+<% current_id = @lesuur.dag.nil? ? "" : @lesuur.dag.id %>
+  
+    <%= f.input :name, label: "Naam" %>
+
+    <%= f.association :dag, include_blank:true %>
+
+    <%= f.submit "Bewaar", class:"btn"%>
+<% end %>

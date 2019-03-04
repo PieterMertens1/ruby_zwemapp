@@ -1,0 +1,41 @@
+<style>
+ table { table-layout: fixed; }
+ table th, table td { overflow: hidden; }
+</style>
+<%= render 'layouts/messages' %>
+<% if lesgever_signed_in? %>
+
+
+<table class="table table-bordered" style="table-layout: fixed"> 
+
+<% @dags.each do |dag| %>
+  <tr >
+    <th colspan="2"><%= dag.name %></th>
+    <% dag.lesuurs.each do |l| %>
+    <tr>
+    	<td colspan="2"><%= l.name %></td>
+    	<!--http://stackoverflow.com/questions/1546918/sorting-model-objects-in-the-view-call-model-method-in-view-or-implement-sort-->
+        <% vorigerang = 0 %>
+    	<% l.groeps.sort {|y,x| y.niveau.rang <=> x.niveau.rang }.each do |g| %>
+            <% if g.niveau.rang - vorigerang > 1 %>
+                <% ((g.niveau.rang - vorigerang-1)*@maxs[g.niveau.name]).times do %>
+                    <%  %>
+                    <td colspan="2"><%= @maxs["groen"] %></td>
+                <% end %>
+            <% end %> 
+    		<td align="center" bgcolor="<%= g.niveau.kleurcode%>" colspan="<%= (@maxs[g.niveau.name].to_f/@freqs[l.id][g.niveau.name].to_f)*2%>"><%= link_to(g) do %>
+    																<div align="center"><% if g.lesgever.name == current_lesgever.name %><b><% end %><%= g.lesgever.name %><% if g.lesgever.name == current_lesgever.name %></b><% end %><br /><%= g.zwemmers.size %></td></div>
+    		
+             														<% end %>
+            <% vorigerang = g.niveau.rang %>  
+    	<% end %>
+    </tr>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'Nieuwe groep', new_groep_path, class:"btn btn-success" %>
+<br />
+<% end %>
+<%= @maxs%>
+<%= @freqs %>

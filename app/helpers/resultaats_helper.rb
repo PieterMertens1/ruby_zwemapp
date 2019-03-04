@@ -1,0 +1,2 @@
+module ResultaatsHelper
+end

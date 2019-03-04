@@ -1,0 +1,27 @@
+<h2>Wijzig rapport voor: <%= @zwemmer.name %></h2>
+<%= simple_form_for(@zwemmer, :html => {:class => 'form-horizontal' }) do |f| %>
+<%= f.error_notification %>
+	<%= f.simple_fields_for :rapports, @rapport do |f2| %>
+  	<div class="hero-unit">
+  	<ul>
+      	<% @rapport.resultaats.each_with_index do |r, ridx| %>
+       	<%= f2.simple_fields_for :resultaats, r do |f3| %>
+           	<fieldset>
+               	<li><h5><%= r.name %></h5></li>
+                    <%= f3.input :score, :collection => ["A", "B", "C", "D", "afwezig"], :label => "Score:",:input_html => {:style => "width:90px"} %>
+                    <%= f3.association :fouts, as: :check_boxes,:label => "Fouten:", :collection => @proefs[ridx].fouts,:input_html => {:style => "display:block"} %>
+            </fieldset> 
+        <% end %>
+        <% end %>
+            <li><h5>Extra commentaar:</h5></li>
+            <%= f2.input :standaard_extra, :collection => ["Goed zo.","Prima.","Heel goed.","Doe zo verder.","Je bent er bijna, doe zo verder.","Prima inzet.","Prima gezwommen.","Prima zwemmer/ster.","Prima, naar GROEN.","Prima, naar GEEL.","Prima, naar ORANJE.","Prima, naar ROOD.","Prima, naar BLAUW.","Je speelt teveel tijdens de les.","Probeer wat meer op te letten tijdens de les.","Afwezig op testjes."], :label => false,:input_html => {:style => "width:350px"} %>
+            <%= f2.input :extra, :as => :text, :input_html => { :cols => 15, :rows => 5}, :label => false %>
+            <li><h5>Lesgever:</h5></li>
+            <%= f2.input :lesgever, :collection => Lesgever.all.collect{|l| l.name}, :label => false %>
+    <% end %>
+    <li><h5>Gaat over:</h5></li>
+    <%= f.input :overvlag, :label => false %>
+    </ul>
+    <%= f.button :submit, "Bewaar" %>
+    </div>
+<% end %>

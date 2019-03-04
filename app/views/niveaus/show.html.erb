@@ -1,0 +1,59 @@
+<%= render 'layouts/messages' %>
+<h2>Testen <%= @niveau.name %></h2>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    
+<!--      <% if params[:nietdilbeeks] != "true" %>
+        <li><%= link_to "Niet-dilbeekse testen", niveau_path(@niveau, nietdilbeeks: "true") %></li>
+      <% else %>
+        <li><%= link_to "Dilbeekse testen", niveau_path(@niveau, nietdilbeeks: "false") %></li>
+      <% end %> -->
+      <% if not Applicatie.first.rapportperiode %>
+        <li><%= link_to 'Nieuwe test', new_proef_path %></li> 
+      <% end %>
+      <li><%= link_to "#{image_tag "pdficon.png", size: "20x20"} Blanco evaluatielijst  ".html_safe, niveau_path(format: "pdf") %></li>
+  </ul>
+</div>
+<p><%= link_to "Terug naar alle niveaus", niveaus_path %></p>
+<p>
+  <b>Niveau:</b>
+  <%= @niveau.name + " " + (params[:nietdilbeeks]=="true" ? "(niet-dilbeeks)" : "(dilbeeks)") %>
+</p>
+
+<p>
+  <b>Rang:</b>
+  <%= @niveau.position %>
+</p>
+<table class="table" id="<%= Applicatie.last.rapportperiode? ? "" : "proefs" %>">
+<tr>
+<% if not Applicatie.first.rapportperiode %>
+  <th></th>
+<% end %>
+<th>Inhoud</th>
+<th>Invoertype</th>
+<th></th>
+<% if not Applicatie.first.rapportperiode %>
+  <th></th>
+  <th></th>
+<% end %>
+</tr>
+<% @proefs.order("position").each_with_index do |t, ti| %>
+  <tr <% if t.belangrijk%>bgcolor="lightgray"<%end%> id="proef_<%= t.id %>">
+    <% if not Applicatie.last.rapportperiode %>
+      <td><span class="handle"><i class="icon-resize-vertical"></i></span></td>
+    <% end %>
+    <td><%= "#{ti+1}. #{t.content}" %></td>
+    <td><%= t.scoretype %></td>
+    <td><%= link_to "Toon", proef_path(t), class: "btn btn-small" %></td>
+    <% if not Applicatie.first.rapportperiode %>
+      <td><%= link_to "Wijzig", edit_proef_path(t), class: "btn btn-small"%></td>
+      <td><%= link_to 'Verwijder', t, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+

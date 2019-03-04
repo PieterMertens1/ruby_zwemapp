@@ -1,0 +1,34 @@
+<%= simple_form_for(@zwemmer, :html => {:class => 'form-horizontal' }) do |f| %>
+<%= f.error_notification %>
+	<%= f.simple_fields_for :rapports, @rapport do |f2| %>
+  	<div class="hero-unit">
+      <%= f2.input :created_at, as: :date, label: "Datum" %>
+      <%= f2.input :lesgever, :collection => Lesgever.pluck(:name), :selected => @zwemmer.groep.lesgever.name %>
+      <%= f2.input :school, :collection => School.pluck(:name), :selected => @zwemmer.kla.school.name %>
+      <%= f2.input :klas, :collection => ["3k", "3ka", "3kb", "3kc"] + (1..6).to_a.product(([""] + ("a".."f").to_a)).collect{|x| x[0].to_s + x[1]}, :selected => @zwemmer.kla.name %>
+      <%= f2.input :niveaus, :input_html => {:value => Niveau.order("position").pluck(:name).join(":")}, :as => :hidden %>
+  	  <%= f2.input :klaar, as: :hidden, :input_html => { :value => true } %>
+      <%= f2.input :overvlag, as: :hidden, :input_html => { :value => false } %>
+    <ul>
+      	<% @rapport.resultaats.each_with_index do |r, ridx| %>
+       	<%= f2.simple_fields_for :resultaats, r do |f3| %>
+           	<fieldset>
+               	<li><h5><%= @proefs[ridx].content %></h5></li>
+                  	<%= f3.input :name, :input_html => {:value => @proefs[ridx].content, :size => 150}, :label => false, :as => :hidden %>
+                    <%= f3.input :score, :collection => ["A", "B", "C", "D", "afwezig"], :label => "Score:",:input_html => {:style => "width:90px"} %>
+                    <%= f3.association :fouts, as: :check_boxes,:label => "Fouten:", :collection => @proefs[ridx].fouts,:input_html => {:style => "display:block"} %>
+            </fieldset> 
+        <% end %>
+        <% end %>
+            <li><h5>Extra commentaar:</h5></li>
+            <%= f2.input :standaard_extra, :collection => Opmerking.order(:name).collect{|op| op.name}, :label => false,:input_html => {:style => "width:350px"} %>
+            <%= f2.input :extra, :as => :text, :input_html => { :cols => 15, :rows => 5}, :label => false %>
+            <%= f2.input :niveau, :input_html => {:value => @niveau.name}, :as => :hidden %>
+            <%= f2.input :kleurcode, :input_html => {:value => @niveau.kleurcode}, :as => :hidden %>
+    <% end %>
+<!--<li><h5>Gaat over:</h5></li>
+    <%= f.input :overvlag, :label => false %>-->
+    </ul>
+    <%= f.button :submit, "Bewaar" %>
+    </div>
+<% end %>

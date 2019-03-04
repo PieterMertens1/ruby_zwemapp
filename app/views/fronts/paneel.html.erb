@@ -1,0 +1,117 @@
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Niet-geüpdate zwemmers", zwemmers_path(import: true) %></li>
+    <li><%= link_to "Niet-geüpdate zwemmers (pdf)", zwemmers_path(import: true, format: 'pdf') %></li>
+    <li class="divider"></li>
+    <li><%= link_to "Zwemmers met opmerkingen (pdf)", zwemmers_path(import: false, format: 'pdf') %></li>
+  </ul>
+</div>
+<div style="margin-left:370px">
+<%= link_to Applicatie.first.rapportperiode? ? "Stop testperiode" : "Start testperiode", {:controller => 'fronts', :action => 'tijd_toevoegen'}, {:method => :post, :class => "btn paneel_button" , confirm: 'Bent u zeker?'} %>
+<%= link_to "Reset importeren", {:controller => 'fronts', :action => 'verander_importeer'}, {:method => :post, :class => "btn paneel_button", confirm: 'Bent u zeker?' } %>
+<%= link_to "Reset nieuwe zwemmers", {:controller => 'fronts', :action => 'verander_importeer'}, {:method => :post, :class => "btn paneel_button" , confirm: 'Bent u zeker?'} %></div><br /><br />
+<span class="span6">
+<table class="table table-bordered">
+<tr>
+<td>Totaal aantal zwemmers</td>
+<td><%= Zwemmer.count %></td>
+</tr>
+<tr>
+<td><ul><li>Aantal wekelijkse zwemmers</li><li>Aantal 2-wekelijkse zwemmers</li></ul></td>
+<td><ul style="list-style-type: none"><li><%=  "#{@n_wekelijks} (#{@n_wek_relative} %)" %></li><li><%= "#{@n_2wekelijks} (#{@n_2wek_relative} %)" %></li></ul></td>
+</tr>
+<tr>
+<td><ul><li>Aantal kleuters</li><li>Aantal lagere schoolkinderen</li></ul></td>
+<td><ul style="list-style-type: none"><li><%=  "#{@kleuters} (#{@n_kl_relative} %)" %></li><li><%= "#{@lagereschool_kinderen} (#{@n_lager_relative} %)" %></li></ul></td>
+</tr>
+<tr>
+<td>Totaal aantal groepen</td>
+<td><%= Groep.count %></td>
+</tr>
+<tr>
+<td>Totaal aantal klassen</td>
+<td><%= Kla.count %></td>
+</tr>
+
+<tr>
+<td>Testperiode</td>
+<td style="background-color: <%= Applicatie.first.rapportperiode? ? "#dff0d8" : "#f2dede" %>"><%= Applicatie.first.rapportperiode? ? "Ja" : "Nee" %></td>
+</tr>
+<% if Applicatie.first.rapportperiode %>
+<tr>
+<td><i class="icon-arrow-right"></i> Aantal zwemmers gestegen</td>
+<td><%= Zwemmer.where("netovervlag = ?", true).count %></td>
+</tr>
+<% end %>
+</table>
+</span>
+<br />
+<!--<span class="span10">
+<%= @laatste_reset %>
+<%= Zwemmer.where("overvlag = ?", true).size %>
+<%= Zwemmer.where("netovervlag = ?", true).size %></span>-->
+<!--
+<div style="width:100px; heigth:100px;background-color:#62C462" id="1"><p>diederik</p></div>
+<div style="width:100px; heigth:100px;background-color:#62C462;opacity:0.7" id="2"><p>joke</p></div>
+<div style="width:100px; heigth:100px;background-color:#62C462;opacity:0.7" id="3"><p>frank</p></div>
+<div style="width:100px; heigth:100px;background-color:#62C462;opacity:0.7" id="4"><p>martin</p></div>
+<div style="width:100px; heigth:100px;background-color:#62C462;opacity:0.7" id="5"><p>ellen</p></div>
+<div style="width:100px; heigth:100px;background-color:#62C462;opacity:0.7" id="6"><p>fabi</p></div>
+<div class="btn-group">
+<button type="button" id="boton" onclick="g()" class="btn"><i class="icon-chevron-left"></i></button>
+<button type="button" id="boton" onclick="h()" class="btn"><i class="icon-chevron-right"></i></button>
+</div>
+<h1>Accordion</h1>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+          Collapsible Group Item #1
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body in collapse" style="height: auto; ">
+        <div class="accordion-inner">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+          Collapsible Group Item #2
+        </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse" style="height: 0px; ">
+        <div class="accordion-inner">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+          Collapsible Group Item #3
+        </a>
+      </div>
+      <div id="collapseThree" class="accordion-body collapse" style="height: 0px; ">
+        <div class="accordion-inner">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+    </div>
+</div>
+<span class="">
+            <div class="well" style="max-width: 250px; padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="active"><a href="#">Gegevens</a></li>
+                <li><a href="#">Overgangen</a></li>
+                <li class="nav-header">Rapporten</li>
+                <li><a href="#">01/13 diederik</a></li>
+                <li><a href="#">06/13 frank</a></li>
+              </ul>
+            </div> 
+          </span>-->

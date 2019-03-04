@@ -1,0 +1,32 @@
+<h1>Gebruikers</h1>
+
+<table class ="table">
+  <tr>
+    <th>Naam</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @lesgevers.each do |lesgever| %>
+  <tr>
+    <td><%= lesgever.name %></td>
+    <td><%= lesgever.sign_in_count %></td>
+    <td><%= lesgever.last_sign_in_ip %></td>
+    <td><% lesgever.roles.each do |r| %>
+            <li><%= r.name %></li>
+        <% end %>
+    </td>
+ 	<td><%= link_to "Toon", lesgever, class: "btn btn-small" %></td>
+ 	<td><%= link_to "Wijzig", edit_lesgever_path(lesgever), class: "btn btn-small" %></td>
+    <td><%= link_to 'Verwijder', lesgever, confirm: 'Bent u zeker?', method: :delete, class: "btn btn-danger btn-small" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Nieuwe lesgever', new_lesgever_path, class: "btn btn-success" %>

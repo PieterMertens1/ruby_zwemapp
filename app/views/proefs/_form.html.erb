@@ -1,0 +1,12 @@
+<%= simple_form_for(@proef, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+  
+  <%= f.input :content, :label => "Inhoud", :as => :text, :input_html => { :cols => 10, :rows => 10 } %>
+  <% if controller.action_name != ("edit" && "update") %>
+  	<%= f.association :niveau, :collection => Niveau.order('position'), :include_blank => true %>
+  <% end %>
+  <%= f.input :scoretype, :collection => ["score", "aantal"] %>
+  <%= f.input :nietdilbeeks, :label => "Niet-dilbeeks" %>
+  <%= f.input :belangrijk %>
+  <%= f.submit "Bewaar", :class => "btn" %>
+<% end %>

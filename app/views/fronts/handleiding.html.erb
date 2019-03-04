@@ -1,0 +1,66 @@
+<center><h3>Handleiding</h3></center>
+<h5>Inhoudstafel</h5>
+<ul>
+<li><a href="#klasimport">Klas importeren</a></li>
+<li><a href="#zwemssplits">Groep opsplitsen</a></li>
+<li><a href="#zwemtest">Groepen testen</a></li>
+</ul>
+<div class="hero-unit">
+<a name="klasimport"></a>
+<h2><span id="klasimport"></span>Klas importeren</h2>
+<ul>
+<li>
+<p>Controleer of het lesuur van de klas reeds bestaat. Indien niet moet het eerst aangemaakt worden: <ul><li>Klik op je naam, dan 'Lesuren'->'Meer'->'Nieuw lesuur'. </li><li>Vul de naam van het lesuur in (volgens formaat '11u50').</li><li>Kies de juiste dag.</li><li>Klik op bewaar.</li><li>Het lesuur wordt nu aangemaakt. Merk op dat het nieuwe lesuur een 'verwijder'-knop naast zich heeft. Deze is alleen zichtbaar als een lesuur geen enkele groep heeft.</li></ul></p>  
+<center><%= image_tag "lesuur.jpg", size: "700x700" %></li></center>
+<li><p>
+Controleer of de klas reeds bestaat. Indien niet moest ze eerst aangemaakt worden: <ul><li>Klik op je naam, dan 'Scholen'->'Meer'->'Nieuwe klas'.</li><li>Selecteer de naam, school, en het lesuur.</li><li>Geef aan of de klas niet-dilbeeks en/of 2-wekelijks is (en duid de juiste week aan).</li><li>Klik op bewaar.</li></ul>
+</p>
+<center><%= image_tag "nieuwe_klas.jpg", size: "700x700" %></li></center>
+<li><p>
+Importeer nu de klas: <ul><li>Klik op je naam, dan 'Klas importeren'.</li><li>Selecteer de klas.</li><li>Kopieer(ctrl-c) de namen vanuit het excel-document en plak(ctrl-v) ze in het tekstvak. Nu verschijnt aan de rechterzijde een tabel met de zwemmers. In de linkerkolom van deze tabel staan iconen: een plus voor zwemmers die onbekend zijn (en dus aangemaakt gaan worden), een vinkje voor zwemmers die reeds gekend zijn (en waarvan dus de klas en groep worden geüpdatet).</li><li>Geef nu voor de onbekende zwemmers aan in welk niveau ze zitten door in het tekstvak naast hun naam een cijfer te typen (1 voor wit, 2 voor groen,...). De tabel rechts wordt automatisch aangepast. Merk op dat onbekende zwemmers in groen geplaatst worden als geen niveau opgegeven is.</li><li>Klik op 'Importeer'.</li><li>De zwemmers van deze klas werden nu geïmporteerd/geüpdatet. Dit betekent: <ul><li>voor gekende zwemmers: dat hun klas werd geüpdatet, en dat ze in een groep (van hun gekende niveau) van het lesuur van hun nieuwe klas geplaatst zijn.</li><li>voor onbekende zwemmers: dat ze aangemaakt werden, en in een groep van het aangegeven niveau geplaatst zijn.</li></ul></li></ul>
+</p> 
+<center><%= image_tag "import.jpg", size: "700x700" %></li></center></li>
+</ul></div><br /><br />
+<div class="hero-unit">
+<h2><span id="zwemssplits"></span>Groep opsplitsen</h2>
+<ul>
+<%= image_tag "tegroot.jpg", style: "float:right" %>
+<li>Wanneer een groep te groot is, dient hij opgesplitst worden. Hiervoor moet eerst een nieuwe groep aangemaakt worden.</li>
+<li>Op de voorpagina: klik op 'Meer', dan 'Nieuwe groep'.</li>
+<li>Selecteer het juiste lesuur en niveau, en de juiste lesgever.</li>
+<center><%= image_tag "nieuwe_groep.jpg", size: "400x150" %></center>
+<li>Ga naar de voorpagina en klik op de op te splitsen groep.</li>
+<li>Vink de zwemmers aan die naar de nieuwe groep moeten.</li>
+<li>Klik op 'Stuur naar (lesgever van nieuwe groep)'.</li>
+<center><%= image_tag "vink_split.jpg", size: "400x150" %></center>
+<li>De zwemmers werden in de nieuwe groep geplaatst.</li>
+<center><%= image_tag "opgesplitst.jpg" %></center>
+</ul></div><br /><br />
+<div class="hero-unit">
+<h2><span id="zwemtest"></span>Groepen testen</h2>
+<ul>
+<%= image_tag "test_groep.jpg", style: "float:right" %>
+<li>Alvorens rapporten kunnen ingevuld worden, moet de testperiode gestart worden in het paneel:</li>
+<ul>
+	<li>Klik op je naam, dan 'Paneel'.</li>
+	<li>Klik op 'Start testperiode' en bevestig.</li>
+	<li>(!! in een testperiode kunnen lesuren, testen en fouten niet toegevoegd, gewijzigd of verwijderd worden.)</li>
+</ul>
+<li>Ga naar je groep.</li>
+<li>Klik op 'Meer', dan 'Test deze groep'.</li>
+<li>Vul alle testresultaten in. Duid ook telkens aan of het rapport klaar is, en of de zwemmer over mag naar het volgende niveau.</li>
+<li>Klik op bewaar.</li>
+<li>Klik op 'Meer', dan 'Wijzig deze groep'.</li>
+<li>Vink 'Testen voltooid' aan.</li>
+<li>Klik op bewaar.</li>
+<li>Alle zwemmers die aangevinkt waren als 'gaat over' worden nu automatisch over gestuurd naar een groep van het volgende niveau. De groep wordt gevlagd als 'voltooid', en krijgt een asterisk in het groepsoverzicht op de voorpagina.</li>
+<li>Je bent nu klaar met deze groep.</li>
+<center><%= image_tag "test_compleet.jpg" %></center>
+<li>Herhaal dit voor alle groepen</li>
+<li>Stop de testperiode:</li>
+<ul>
+	<li>Klik op je naam, dan 'Paneel'.</li>
+	<li>Klik op 'Stop testperiode' en bevestig.</li>
+</ul>
+<li>Alle asterisken verdwijnen. Je kan nu weer lesuren, testen en fouten toevoegen, wijzigen en verwijderen.</li>
+</ul></div>

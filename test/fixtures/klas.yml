@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: klas
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  school_id  :integer
+#  lesuur_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  school_id: 1
+  lesuur_id: 1
+
+two:
+  name: MyString
+  school_id: 1
+  lesuur_id: 1

@@ -1,0 +1,7 @@
+<%= simple_form_for(@opmerking, :html => {:class => 'form-horizontal' }) do |f| %>
+  <%= f.error_notification %>
+
+    <%= f.input :name, :label => "Opmerking", :input_html => {:style => 'width: 400px'} %>
+
+    <%= f.submit "Bewaar", class: "btn"%>
+<% end %>

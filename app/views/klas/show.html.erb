@@ -1,0 +1,63 @@
+<%= render 'layouts/messages' %>
+<div class="btn-group pull-right actions">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <i class="icon-align-justify"></i> Meer
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Klaslijst", kla_path(@kla, format: "pdf",:type => "klaslijst") %></li>
+    <li><%= link_to "Rapporten (in browser)", kla_path(@kla, format: "pdf",:type => "rapporten") %></li>
+    <li><%= link_to "Rapporten (opslaan)", kla_path(@kla, format: "pdf",:type => "rapporten", :naar => "opslag") %></li>
+    <li class="divider"></li>
+    <li><%= link_to "Wijzig deze klas", edit_kla_path(@kla) %></li>
+    <% if @kla.zwemmers.size ==0 %>
+        <li class="divider"></li>
+        <li><%= link_to 'Verwijder deze klas', @kla, confirm: 'Bent u zeker?', method: :delete %></li>
+    <% end %>
+  </ul>
+</div>
+<table style="width:90%; float:left" class="table table-bordered">
+<tr>
+<td>
+  <b>Klas:</b>
+  <%= link_to(@kla.school.name, school_path(@kla.school)) + " " + @kla.name %>
+</td>
+<td>
+  <b>Lesuur:</b>
+  <%= link_to(@kla.lesuur.dag.name, groeps_path(dag: @kla.lesuur.dag)) + " " + @kla.lesuur.name %>
+</td>
+<td>
+  <b>Verborgen:</b>
+  <%=  @kla.verborgen? ? "Ja" : "Nee" %>
+</td>
+<td>
+  <b>2-wekelijks:</b>
+  <%= @kla.tweeweek? ? "Ja (week #{@kla.week})" : "Nee" %>
+</td>
+<td>
+  <b>Aantal:</b>
+  <%= @kla.zwemmers.count %> zwemmers
+</td>
+</tr>
+</table>
+<table class="table">
+<tr>
+  <th></th>
+  <th>Naam</th>
+  <th>Laatste rapport</th>
+  <th></th>
+  <th></th>
+  <th></th>
+</tr>
+<% @kla.zwemmers.sort_by{ |zw| zw.name}.each do |z|%>
+	<tr>
+  	<td><div style="background-color:<%= z.groep.niveau.kleurcode %>" class="kleur small_groep_ster_<%= z.groep.niveau.name.split.last %>"</div></td>
+    <td><%= link_to z.name, z %></td>
+    <td><%= z.rapports.count > 0 ? z.rapports.last.created_at.strftime("%d/%m/%y") + (z.rapports.last.klaar ? "(klaar)" : "") : "/" %></td>
+    <td><%= link_to 'Groep', groep_path(z.groep) , class: "btn btn-small"%></td>
+    <td><%= link_to 'Wijzig', edit_zwemmer_path(z), class: "btn btn-small" %></td>
+    <td><%= link_to 'Verwijder', z, confirm: 'Are you sure?', method: :delete, class: "btn btn-danger btn-small" %></td>
+  </tr>
+<% end %>
+</table>
+

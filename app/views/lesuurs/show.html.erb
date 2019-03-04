@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @lesuur.name %>
+</p>
+
+<p>
+  <b>Dag:</b>
+  <%= @lesuur.dag.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_lesuur_path(@lesuur) %> |
+<%= link_to 'Back', lesuurs_path %>

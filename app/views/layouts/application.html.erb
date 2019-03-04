@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zwemapp</title>
+  <%= favicon_link_tag 'swim.ico' %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+        	<h2 id="logo"></h2>
+          <!--<%= link_to "dilkom APP", '#', id: "logo" %>-->
+          <nav>
+            <ul class="nav pull-right">
+              <!--<li><%= link_to "Home", root_path %></li>-->
+               <% if lesgever_signed_in? %>
+              	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    			<%= current_lesgever.name %>
+    		<span class="caret"></span>
+  			</a>
+  			<ul class="dropdown-menu">
+          <% if can? :index, Niveau %>
+			     <li><%= link_to "Lesuren", dags_path %></li>
+			     <li><%= link_to "Scholen", schools_path %></li>
+           <li class="dropdown-submenu"><%= link_to "Evaluatie", "#" %>
+           <ul class="dropdown-menu">
+			       <li><%= link_to "Niveaus", niveaus_path %></li>
+             <li><%= link_to "Opmerkingen", opmerkings_path %></li>
+           </ul></li>
+          <% end %>
+          <% if can? :index, Lesgever %>
+            <li class="divider"></li>
+            <li><%= link_to "Lesgevers", lesgevers_path %></li>
+          <% end %>
+          <% if can? :update, Kla %>
+            <li class="divider"></li>
+            <li><%= link_to "Klas importeren", fronts_import_form_path %></li>
+            <li><%= link_to "Statistieken", fronts_singlestat_path %></li>
+            <li><%= link_to "Paneel", fronts_paneel_path %></li>
+          <li class="divider"></li>
+          <% end %>
+          <li><%= link_to "Mijn profiel", edit_lesgever_path(current_lesgever) %></li>
+          <li><%= link_to "Handleiding", fronts_handleiding_path %></li>
+          <li><%= link_to "Nieuws", nieuws_path %></li>
+			    <li><%= link_to "Log uit", destroy_lesgever_session_path, :method => :delete %></li>
+			</ul>
+              
+              <% end %>
+            </ul>
+            <!-- -->
+          <ul class="nav pull-right" style="margin-right:5px">
+               <% if lesgever_signed_in? %>
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          <%= "dagen" %>
+        <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <% Dag.all.each do |d|  %>
+            <% if d.lesuurs.count != 0 %>
+              <li><%= link_to d.name.capitalize, groeps_path(dag: d.id) %></li>
+            <% end %>
+          <% end %>
+      </ul>
+              
+              <% end %>
+            </ul>
+          <!-- -->
+        <% if lesgever_signed_in? %> 
+		<div class="zoekform pull-right">
+			<%= form_tag zwemmers_path, :method => 'get' do%>
+				 <%= text_field_tag :search %>
+			<%end%>
+		</div>
+		<% end %>
+          </nav>
+          <div class="senter">
+          <nav>
+            <%= link_to root_path do %>
+            <div>
+          	<ul class="nav senter">
+             
+          	<% @niveaus.each do |n|%>
+              
+          		<li><div style="background-color: <%= n.kleurcode %>" class="kleur small_groep_ster_<%= n.name.split.last %> kleur_blok_in_header"></div></li>
+              
+          	<% end %>
+            </div>
+            <% end %>
+          </nav>
+          
+          </div>
+        </div>
+      </div>
+    </header>
+<div class="container">
+<%= yield %>
+</div>
+<%= render 'layouts/footer' %>
+<%= yield :body %>
+</body>
+</html>
